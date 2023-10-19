@@ -1,39 +1,44 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
+import { fetchContacts, addContact, deleteContact } from './operations';
 
-const startContacts = [
-  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-];
+const handlePending = state => {
+  state.isLoading = true;
+};
 
-const phoneBookSlic = createSlice({
-  name: 'phoneBook',
-  initialState: startContacts,
-  reducers: {
-    addContact: {
-      reducer(state, action) {
-        state.push(action.payload);
-      },
-      prepare(values) {
-        return {
-          payload: {
-            id: nanoid(),
-            ...values,
-          },
-        };
-      },
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
+
+export const contactsSlice = createSlice({
+  name: 'contacts',
+  initialState: { contacts: [], isLoading: false, error: null },
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [fetchContacts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.contacts = action.payload;
     },
-    deleteContact(state, action) {
-      return state.filter(contact => contact.id !== action.payload);
+    [fetchContacts.rejected]: handleRejected,
+    [addContact.pending]: handlePending,
+    [addContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.contacts.push(action.payload);
     },
-    resetContacts(state, action) {
-      return startContacts;
+    [addContact.rejected]: handleRejected,
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.contacts.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.contacts.splice(index, 1);
     },
+    [deleteContact.rejected]: handleRejected,
   },
 });
 
-export const { addContact, deleteContact, resetContacts } =
-  phoneBookSlic.actions;
-export const contactsReducer = phoneBookSlic.reducer;
+export const { add, deleteTask } = contactsSlice.actions;
