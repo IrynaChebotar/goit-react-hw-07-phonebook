@@ -2,10 +2,9 @@ import styled from 'styled-components';
 
 export const ContactsList = styled.div`
   background-color: rgba(68, 33, 83, 0.5);
-  padding: 10px;
+  padding-top: 10px;
   border-radius: 15px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
-  max-width: 700px;
 `;
 
 export const Title = styled.h1`
