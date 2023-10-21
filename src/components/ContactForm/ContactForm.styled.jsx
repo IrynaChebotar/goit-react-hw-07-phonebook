@@ -30,7 +30,7 @@ export const Label = styled.label`
 export const AddBtn = styled.button`
   margin-top: 60px;
   padding: 4px;
-  width: 10%;
+  width: 30%;
   height: 100%;
   border-radius: 15px;
   background: #a656dc;
@@ -48,4 +48,8 @@ export const StyledError = styled(ErrorMessage)`
   margin-top: 10px;
   color: red;
   font-size: 10px;
+`;
+
+export const InputContainer = styled.div`
+  position: relative;
 `;

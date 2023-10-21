@@ -1,18 +1,32 @@
+import {
+  Wrapper,
+  FilterTitile,
+  ContactFilter,
+  Description,
+  Lable,
+} from './ContactFilter.styled';
 import { useDispatch } from 'react-redux';
-import { getVisibleContacts } from 'redux/filterSlice';
-import { Description, Wrapper } from './ContactFilter.styled';
+import { setFilter } from 'redux/filterSlice';
 
-export const ContactFilter = () => {
+export const ContactsFilter = () => {
   const dispatch = useDispatch();
 
   const handeChangeFilter = e => {
-    dispatch(getVisibleContacts(e.currentTarget.value));
+    dispatch(setFilter(e.currentTarget.value));
   };
 
   return (
     <Wrapper>
-      Find contact by name
-      <Description type="text" name="text" onChange={handeChangeFilter} />
+      <FilterTitile>Contacts</FilterTitile>
+      <ContactFilter>
+        <Description
+          placeholder=" "
+          type="text"
+          name="filter"
+          onChange={handeChangeFilter}
+        />
+        <Lable htmlFor="filter">Find contact by name</Lable>
+      </ContactFilter>
     </Wrapper>
   );
 };
